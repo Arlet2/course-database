@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS pelmeni_size (
+    name VARCHAR(255) PRIMARY KEY
+)

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS deliveries (
     delivery_point_id INT
         REFERENCES delivery_points(id)
         ON DELETE SET NULL,
-    packs_count INT CHECK(packs_count IN NULL OR packs_count >= 0),
+    packs_count INT CHECK(packs_count IS NULL OR packs_count >= 0),
     factory_id INT
         REFERENCES factories(id)
         ON DELETE SET NULL

@@ -10,4 +10,13 @@ CREATE TABLE IF NOT EXISTS deliveries (
     factory_id INT
         REFERENCES factories(id)
         ON DELETE SET NULL
-)
+);
+
+INSERT INTO deliveries 
+    (transport_number, delivery_point_id, packs_count, factory_id) 
+VALUES
+    ("Х999УУ93", 0, 1300, 1), 
+    ("К123ЕК93", 2, 258, 3),
+    ("К123ЕК93", 1, 228, 2),
+    ("В888ВС", 0, 1337, 4),
+    ("Х999УУ93", 1, 1448, 0);

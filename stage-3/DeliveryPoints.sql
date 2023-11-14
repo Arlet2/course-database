@@ -5,4 +5,11 @@ CREATE TABLE IF NOT EXISTS delivery_points(
         REFERENCES delivery_point_types(name)
         ON DELETE SET NULL,
     packs_capacity INT NOT NULL
-)
+);
+
+INSERT INTO delivery_point_types 
+    (address, point_type, packs_capacity) 
+VALUES
+    ("г. Санкт-Петербург, ул. Белорусская, д. 6", "Склад владельца", 150000), 
+    ("г. Санкт-Петербург, ул. Ленсовета, д. 23", "Склад партнёра", 60000), 
+    ("г. Санкт-Петербург, Вяземский пер., д. 5-7", "Магазин-партнёр", 10000);

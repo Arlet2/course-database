@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS documents(
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(256) NOT NULL,
+    owner_id INT,
+    signed BOOLEAN
+);
+
+ALTER TABLE ONLY documents
+    ADD FOREIGN KEY(owner_id) REFERENCES employees ON DELETE NULL;

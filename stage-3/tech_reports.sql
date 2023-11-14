@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS tech_reports (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    reported_id INT NOT NULL REFERENCES employees ON DELETE CASCADE,
+    shift_id INT NOT NULL REFERENCES workshifts ON DELETE CASCADE,
+    state INT NOT NULL CHECK(state BETWEEN 1 AND 5),
+    created TIMESTAMP,
+    description TEXT
+);

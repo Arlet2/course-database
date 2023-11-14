@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS tech_reports (
 INSERT INTO tech_reports
 (reporter_id, shift_id, state, created, description)
 VALUES
-(0, 0, 1, TIMESTAMP '2023-14-11 11:00:00+03', 'Conveyor exploded after 200 hours of work');
+(0, 0, 1, TIMESTAMP '2023-11-14 11:00:00+03', 'Conveyor exploded after 200 hours of work');
 
 
 INSERT INTO tech_reports

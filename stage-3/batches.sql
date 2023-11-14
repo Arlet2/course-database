@@ -10,3 +10,26 @@ CREATE TABLE IF NOT EXISTS batches(
     packs_count INT CHECK(packs_count IS NULL OR packs_count >= 0),
     mass_of_defective REAL CHECK(mass_of_defective IS NULL OR mass_of_defective >= 0)
 );
+
+INSERT INTO batches
+(
+    shift_id, pelmeni_type, pelmeni_size, 
+    summary_mass, created, factory_id, 
+    package_time, packs_count, mass_of_defective
+)
+VALUES
+(
+    0, 0, 'маленькие', 
+    100, TIMESTAMP '2023-01-01 02:05:10+02', 0, 
+    '2023-01-01 02:05:10+02', 100, 0
+),
+(
+    1, 0, 'средние',
+    10, TIMESTAMP '2023-02-01 05:05:10+03', 1,
+    '2023-03-03 06:02:10+03', 50, 10
+),
+(
+    2, 1, 'маленькие',
+    200, TIMESTAMP '2023-03-03 06:02:10+03', 3,
+    NULL, NULL, NULL
+);

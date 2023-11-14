@@ -11,8 +11,10 @@ ALTER TABLE ONLY documents
 
 INSERT INTO documents 
 (name, data_url, owner_id, signed) 
-VALUES('agreement', 'http://unblockfolio.ru/docs/a41ghdf1', NULL, TRUE);
-
-INSERT INTO documents 
-(name, data_url, owner_id, signed) 
-VALUES('passport', 'http://unblockfolio.ru/docs/412dffgs', 0, FALSE);
+VALUES
+('agreement', 'http://unblockfolio.ru/docs/a41ghdf1', NULL, TRUE),
+('passport', 'http://unblockfolio.ru/docs/412dffgs', 0, NULL),
+('agreement', 'http://unblockfolio.ru/docs/asdf1d', 1, TRUE),
+('passport', 'http://unblockfolio.ru/docs/gsa2saf', 1, NULL),
+('agreement', 'http://unblockfolio.ru/docs/asdf1d', 2, TRUE),
+('passport', 'http://unblockfolio.ru/docs/gasdgas', 2, NULL)

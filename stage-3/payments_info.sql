@@ -9,3 +9,10 @@ CREATE TABLE IF NOT EXISTS payments_info(
     inn VARCHAR(50),
     kpp VARCHAR(50)
 );
+
+INSERT INTO payments_info
+(salary, bank_name, account_number, bik, inn, kpp)
+VALUES
+(10000000, 'Alfa Bank', 5536913784868685, 044525974, 7710140679, 771301001),
+(0, 'Tinkoff Bank', 2222222, NULL, NULL, 101),
+(10, 'Sber Bank', 12351, NULL, NULL, NULL);

@@ -9,5 +9,8 @@ CREATE TABLE IF NOT EXISTS employees(
 );
 
 INSERT INTO employees
-(full_name, job_title, employment_date)
-VALUES ('Matthew Ivanov Sergeevich', 'director of factory', '2003-02-02');
+(full_name, job_title, employment_date, dismissal_date)
+VALUES 
+('Matthew Ivanov Sergeevich', 'director of factory', '2003-02-02', '2023-14-11'),
+('Artem Shulga Igorevich', 'intern of production', '2003-02-02', '2023-14-11'),
+('Artem Saidaev Bedrosovich', 'software developer', '2004-01-01', '2023-14-11')

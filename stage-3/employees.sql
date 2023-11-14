@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS employees(
     job_title VARCHAR(50),
     employment_date DATE NOT NULL,
     dismissal_date DATE,
-    payment_id INT REFERENCES payments_info,
-    agreement_id INT REFERENCES documents
+    payment_id INT REFERENCES payments_info ON DELETE SET NULL,
+    agreement_id INT REFERENCES documents ON DELETE SET NULL
 );

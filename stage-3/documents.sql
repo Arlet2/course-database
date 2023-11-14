@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS documents(
 );
 
 ALTER TABLE ONLY documents
-    ADD FOREIGN KEY(owner_id) REFERENCES employees ON DELETE NULL;
+    ADD FOREIGN KEY(owner_id) REFERENCES employees ON DELETE SET NULL;
 
 INSERT INTO documents 
-(name, owner_id, signed) 
-VALUES('agreement', "http://unblockfolio.ru/docs/a41ghdf1", NULL, TRUE);
+(name, data_url, owner_id, signed) 
+VALUES('agreement', 'http://unblockfolio.ru/docs/a41ghdf1', NULL, TRUE);

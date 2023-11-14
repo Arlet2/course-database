@@ -1,3 +1,3 @@
-CREATE TABLE IF NOT EXISTS pelmeni_size (
+CREATE TABLE IF NOT EXISTS pelmeni_sizes (
     name VARCHAR(255) PRIMARY KEY
 )

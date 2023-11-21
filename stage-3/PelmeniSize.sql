@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS pelmeni_sizes (
 INSERT INTO pelmeni_sizes 
     (name) 
 VALUES
-    ("маленькие"),
-    ("средние"),
-    ("крупные"),
-    ("гигантские");
+    ('маленькие'),
+    ('средние'),
+    ('крупные'),
+    ('гигантские');
 

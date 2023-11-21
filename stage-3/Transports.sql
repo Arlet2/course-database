@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS transports(
 INSERT INTO transports 
     (transport_number, packs_capacity, max_weight) 
 VALUES
-    ("Х999УУ93", 2000, 1500), 
-    ("К123ЕК93", 1234, 1000),
-    ("В888ВС", 2500, 3000);
+    ('Х999УУ93', 2000, 1500), 
+    ('К123ЕК93', 1234, 1000),
+    ('В888ВС', 2500, 3000);
 
 CREATE INDEX ON transports BTREE(packs_capacity);

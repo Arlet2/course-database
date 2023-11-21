@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS batch_delivery(
     delivery_id INT
-        REFERENCES delivery(id)
+        REFERENCES deliveries(id)
         ON DELETE CASCADE,
     batch_id INT 
         REFERENCES batches(id)
@@ -32,7 +32,7 @@ BEGIN
     IF (
         SELECT t.packs_capacity FROM deliveries d JOIN transports t 
             ON d.transport_number = t.transport_number 
-        WHERE d.delivery_id = NEW.delivery_id
+        WHERE d.id = NEW.delivery_id
     ) - (
         SELECT SUM(amount) as packs_count FROM batch_delivery WHERE delivery_id = NEW.delivery_id
     ) < NEW.amount 
@@ -50,7 +50,8 @@ BEGIN
     UPDATE deliveries 
     SET packs_count = (
         SELECT SUM(amount) as packs_count FROM batch_delivery WHERE delivery_id = NEW.delivery_id
-    ) WHERE delivery_id = NEW.delivery_id;
+    ) WHERE id = NEW.delivery_id;
+    RETURN NEW;
 END;
 $delivery_packs_count$ LANGUAGE 'plpgsql';
 
@@ -68,23 +69,24 @@ CREATE OR REPLACE TRIGGER delivery_packs_count_trigger
 INSERT INTO batch_delivery 
     (delivery_id, batch_id, amount, mass) 
 VALUES
-    (0, 1, 400, NULL),
-    (0, 2, 250, 200),
-    (1, 0, 230, 190),
-    (1, 2, 100, NULL),
-    (2, 0, 423, NULL),
-    (3, 1, 800, 700),
-    (4, 0, 230, 200),
-    (4, 2, 530, 450);
+    (4, 1, 400, NULL),
+   -- (0, 2, 250, 200),
+    (5, 2, 230, 190),
+    --(1, 2, 100, NULL),
+    (6, 2, 423, NULL);
+    --(4, 1, 800, 700),
+    --(5, 2, 230, 200);
+   -- (4, 2, 530, 450);
 
 # Test checks
 
-# Not enought in batch
-INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (1, 1, 400, NULL);
+
 # Not set in batch
-INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (2, 2, 400, 100);
+INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (4, 3, 400, NULL);
+# Not enought in batch
+INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (4, 2, 700, 100);
 # Not enough in transport
-INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (2, 0, 1100, 1000);
+INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (4, 2, 500, 1000);
 
 # Check packs_counts updates (should be equal)
-SELECT packs_count, SUM(SELECT amount FROM batch_delivery WHERE delivery_id = 0) as packs_count_sum FROM deliveries WHERE id = 0;
+SELECT packs_count, (SELECT SUM(amount) FROM batch_delivery WHERE delivery_id = 4) as packs_count_sum FROM deliveries WHERE id = 4;

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS deliveries (
         REFERENCES factories(id)
         ON DELETE SET NULL,
     departure_date TIMESTAMP,
-    arrival_date TIMESTAMP CHECK(arrival_date IS NULL OR departure_date IS NOT NULL AND arrival_date > departure_date),
+    arrival_date TIMESTAMP CHECK(arrival_date IS NULL OR departure_date IS NOT NULL AND arrival_date > departure_date)
 );
 
 CREATE OR REPLACE FUNCTION check_delivery_point_capacity()
@@ -39,8 +39,8 @@ CREATE INDEX ON deliveries USING HASH (factory_id);
 INSERT INTO deliveries 
     (transport_number, delivery_point_id, packs_count, factory_id) 
 VALUES
-    ("Х999УУ93", 0, 1300, 1), 
-    ("К123ЕК93", 2, 258, 3),
-    ("К123ЕК93", 1, 228, 2),
-    ("В888ВС", 0, 1337, 4),
-    ("Х999УУ93", 1, 1448, 0);
+    ('Х999УУ93', 0, 1300, 1), 
+    ('К123ЕК93', 2, 258, 3),
+    ('К123ЕК93', 1, 228, 2),
+    ('В888ВС', 0, 1337, 4),
+    ('Х999УУ93', 1, 1448, 0);

@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS conveyors (
 INSERT INTO conveyors
     (manager_id, name, commissioning_date, decommissioning_date)  
 VALUES
-    (0, "Неуязвимый", TO_DATE('2023-01-01'), TO_DATE('2023-11-14')), 
-    (0, "Пельменный", TO_DATE('2023-02-01'), NULL), 
-    (2, "Универсальный", TO_DATE('2023-06-01'), NULL);
+    (0, 'Неуязвимый', TO_DATE('2023-01-01'), TO_DATE('2023-11-14')), 
+    (0, 'Пельменный', TO_DATE('2023-02-01'), NULL), 
+    (2, 'Универсальный', TO_DATE('2023-06-01'), NULL);
 
 CREATE INDEX ON conveyors USING HASH (manager_id);

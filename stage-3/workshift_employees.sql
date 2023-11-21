@@ -11,3 +11,17 @@ VALUES
 (0, 0, true),
 (1, 0, NULL),
 (2, 0, NULL);
+
+CREATE FUNCTION manager_check() RETURNS trigger AS $manager_check$
+    BEGIN
+        IF NEW.shift_manager = TRUE AND 
+            (SELECT COUNT(*) FROM workshift_employees WHERE shift_id = NEW.shift_id AND shift_manager = TRUE) != 0 THEN
+            RAISE EXCEPTION 'on one workshift can be only one manager';
+        END IF;
+        
+        RETURN NEW;
+    END;
+$manager_check$ LANGUAGE plpgsql;
+
+CREATE TRIGGER manager_tr BEFORE INSERT OR UPDATE ON workshift_employees
+    FOR EACH ROW EXECUTE PROCEDURE manager_check();

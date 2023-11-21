@@ -33,3 +33,7 @@ VALUES
     200, TIMESTAMP '2023-03-03 06:02:10+03', 3,
     NULL, NULL, NULL
 );
+
+
+CREATE INDEX ON batches USING HASH (shift_id);
+CREATE INDEX ON batches USING HASH (factory_id);

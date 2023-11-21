@@ -17,4 +17,6 @@ VALUES
 ('agreement', 'http://unblockfolio.ru/docs/asdf1d', 1, TRUE),
 ('passport', 'http://unblockfolio.ru/docs/gsa2saf', 1, NULL),
 ('agreement', 'http://unblockfolio.ru/docs/asdf1d', 2, TRUE),
-('passport', 'http://unblockfolio.ru/docs/gasdgas', 2, NULL)
+('passport', 'http://unblockfolio.ru/docs/gasdgas', 2, NULL);
+
+CREATE INDEX ON documents USING HASH(owner_id);

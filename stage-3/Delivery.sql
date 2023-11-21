@@ -20,3 +20,6 @@ VALUES
     ("К123ЕК93", 1, 228, 2),
     ("В888ВС", 0, 1337, 4),
     ("Х999УУ93", 1, 1448, 0);
+
+CREATE INDEX ON deliveries USING HASH (delivery_point_id);
+CREATE INDEX ON deliveries USING HASH (factory_id);

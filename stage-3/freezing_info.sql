@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS freezing_info(
     section_id INT REFERENCES sections ON DELETE CASCADE,
     temperature INT NOT NULL,
     load_date DATE NOT NULL,
-    unload_date DATE,
+    unload_date DATE CHECK(unload_date IS NULL OR unload_date > load_date),
     PRIMARY KEY(batch_id, section_id)
 )
 

@@ -13,4 +13,6 @@ INSERT INTO employees
 VALUES 
 ('Matthew Ivanov Sergeevich', 'director of factory', '2003-02-02', '2023-11-14'),
 ('Artem Shulga Igorevich', 'intern of production', '2003-02-02', '2023-11-14'),
-('Artem Saidaev Bedrosovich', 'software developer', '2004-01-01', '2023-11-14')
+('Artem Saidaev Bedrosovich', 'software developer', '2004-01-01', '2023-11-14');
+
+CREATE INDEX ON employees USING HASH(full_name);

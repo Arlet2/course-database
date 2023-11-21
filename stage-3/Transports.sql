@@ -10,3 +10,5 @@ VALUES
     ("Х999УУ93", 2000, 1500), 
     ("К123ЕК93", 1234, 1000),
     ("В888ВС", 2500, 3000);
+
+CREATE INDEX ON transports BTREE(packs_capacity);

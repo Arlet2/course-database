@@ -17,3 +17,6 @@ INSERT INTO tech_reports
 (reporter_id, shift_id, state, created, description)
 VALUES
 (1, 1, 5, NULL, 'All good');
+
+CREATE INDEX ON tech_reports USING HASH (shift_id);
+CREATE INDEX ON tech_reports USING HASH (reporter_id);

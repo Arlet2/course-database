@@ -76,3 +76,15 @@ VALUES
     (3, 1, 800, 700),
     (4, 0, 230, 200),
     (4, 2, 530, 450);
+
+# Test checks
+
+# Not enought in batch
+INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (1, 1, 400, NULL);
+# Not set in batch
+INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (2, 2, 400, 100);
+# Not enough in transport
+INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (2, 0, 1100, 1000);
+
+# Check packs_counts updates (should be equal)
+SELECT packs_count, SUM(SELECT amount FROM batch_delivery WHERE delivery_id = 0) as packs_count_sum FROM deliveries WHERE id = 0;

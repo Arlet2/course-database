@@ -11,7 +11,7 @@ data class PelmeniTypeIngredient(
 
 object PelmeniTypeIngredients : Table("pelmeni_type_ingredients") {
     val typeID = integer("type_id")
-        .references(PelmeniTypes.typeID, onDelete = ReferenceOption.CASCADE)
+        .references(PelmeniTypes.id, onDelete = ReferenceOption.CASCADE)
     val ingredientName = varchar("ingredient_name", 255)
     val weight = double("weight")
         .check("positive_weight") { it.greaterEq(0.0) }

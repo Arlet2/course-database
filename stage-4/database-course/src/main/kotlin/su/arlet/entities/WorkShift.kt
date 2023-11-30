@@ -17,9 +17,9 @@ data class WorkShift(
 object WorkShifts : Table("work_shifts") {
     val id = integer("id").autoIncrement()
     val batchID = integer("batch_id")
-        .references(Batches.id, onDelete = ReferenceOption.SET_NULL)
+        .references(Batches.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val conveyorID = integer("conveyor_id")
-        .references(Conveyors.id, onDelete = ReferenceOption.SET_NULL)
+        .references(Conveyors.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val timeStart = timestamp("time_start").nullable()
     val timeEnd = timestamp("time_end").nullable()
         .check("after_start") {

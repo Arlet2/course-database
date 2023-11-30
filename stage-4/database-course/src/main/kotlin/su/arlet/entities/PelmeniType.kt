@@ -10,11 +10,11 @@ data class PelmeniType(
 )
 
 object PelmeniTypes : Table("pelmeni_types") {
-    val typeID = integer("type_id").autoIncrement()
+    val id = integer("id").autoIncrement()
     val name = varchar("name", 255)
     val recipe = text("recipe")
 
-    override val primaryKey = PrimaryKey(typeID)
+    override val primaryKey = PrimaryKey(id)
 }
 
 // .

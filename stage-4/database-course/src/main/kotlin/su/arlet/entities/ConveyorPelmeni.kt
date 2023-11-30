@@ -13,7 +13,7 @@ object ConveyorPelmenies : Table("conveyor_pelmeni") {
     val conveyorId = integer("conveyor_id")
         .references(Conveyors.id, onDelete = ReferenceOption.CASCADE)
     val typeId = integer("type_id")
-        .references(PelmeniTypes.typeID, onDelete = ReferenceOption.CASCADE)
+        .references(PelmeniTypes.id, onDelete = ReferenceOption.CASCADE)
     val sizeName = varchar("size_name", 255)
         .references(PelmeniSizes.name, onDelete = ReferenceOption.CASCADE)
 

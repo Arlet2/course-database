@@ -24,7 +24,7 @@ object Batches : Table("batches") {
     val shiftID = integer("shift_id")
         .references(WorkShifts.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val pelmeniType = integer("pelmeni_type")
-        .references(PelmeniTypes.typeID, onDelete = ReferenceOption.SET_NULL).nullable()
+        .references(PelmeniTypes.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val pelmeniSize = varchar("pelmeni_size", 255)
         .references(PelmeniSizes.name, onDelete = ReferenceOption.SET_NULL).nullable()
     val summaryMass = double("summary_mass").check("positive_mass") { it.greaterEq(0.0) }

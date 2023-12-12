@@ -5,13 +5,6 @@ CREATE TABLE IF NOT EXISTS workshift_employees(
     PRIMARY KEY(employee_id, shift_id)
 );
 
-INSERT INTO workshift_employees
-(employee_id, shift_id, shift_manager)
-VALUES
-(0, 0, true),
-(1, 0, NULL),
-(2, 0, NULL);
-
 CREATE FUNCTION manager_check() RETURNS trigger AS $manager_check$
     BEGIN
         IF NEW.shift_manager = TRUE AND 
@@ -25,3 +18,10 @@ $manager_check$ LANGUAGE plpgsql;
 
 CREATE TRIGGER manager_tr BEFORE INSERT OR UPDATE ON workshift_employees
     FOR EACH ROW EXECUTE PROCEDURE manager_check();
+
+INSERT INTO workshift_employees
+(employee_id, shift_id, shift_manager)
+VALUES
+(1, 1, true),
+(2, 1, NULL),
+(3, 1, NULL);

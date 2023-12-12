@@ -4,15 +4,18 @@ CREATE TABLE IF NOT EXISTS conveyors (
         REFERENCES employees(id)
         ON DELETE SET NULL,
     name VARCHAR(50),
+    factory_id INT 
+        REFERENCES factories(id) 
+        ON DELETE SET NULL,
     commissioning_date DATE,
     decommissioning_date DATE
 );
 
 INSERT INTO conveyors
-    (manager_id, name, commissioning_date, decommissioning_date)  
+    (manager_id, name, factory_id, commissioning_date, decommissioning_date)  
 VALUES
-    (0, 'Неуязвимый', TO_DATE('2023-01-01'), TO_DATE('2023-11-14')), 
-    (0, 'Пельменный', TO_DATE('2023-02-01'), NULL), 
-    (2, 'Универсальный', TO_DATE('2023-06-01'), NULL);
+    (1, 'Неуязвимый', 1, TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_DATE('2023-11-14', 'YYYY-MM-DD')), 
+    (1, 'Пельменный', 2, TO_DATE('2023-02-01', 'YYYY-MM-DD'), NULL), 
+    (2, 'Универсальный', 4, TO_DATE('2023-06-01', 'YYYY-MM-DD'), NULL);
 
 CREATE INDEX ON conveyors USING HASH (manager_id);

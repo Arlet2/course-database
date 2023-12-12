@@ -15,4 +15,9 @@ VALUES
 ('Artem Shulga Igorevich', 'intern of production', '2003-02-02', '2023-11-14'),
 ('Artem Saidaev Bedrosovich', 'software developer', '2004-01-01', '2023-11-14');
 
+INSERT INTO employees
+(full_name, job_title, employment_date, dismissal_date, payment_id)
+VALUES 
+('Alice Mikulina Romanovna', 'senior django developer', '2023-11-15', NULL, 1);
+
 CREATE INDEX ON employees USING HASH(full_name);

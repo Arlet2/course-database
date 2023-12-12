@@ -1,12 +1,13 @@
 CREATE TABLE IF NOT EXISTS sections (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    size INT NOT NULL CHECK (size > 0)
+    mass_capacity REAL NOT NULL CHECK (mass_capacity > 0),
+    temperature REAL NOT NULL
 );
 
 INSERT INTO sections
-(size)
+(mass_capacity, temperature)
 VALUES
-(100),
-(90),
-(50),
-(60);
+(2500, -21.5),
+(3400, -15.2),
+(3000, -17),
+(1800, -12.8);

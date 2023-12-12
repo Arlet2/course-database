@@ -39,8 +39,8 @@ CREATE INDEX ON deliveries USING HASH (factory_id);
 INSERT INTO deliveries 
     (transport_number, delivery_point_id, packs_count, factory_id) 
 VALUES
-    ('Х999УУ93', 0, 1300, 1), 
-    ('К123ЕК93', 2, 258, 3),
-    ('К123ЕК93', 1, 228, 2),
-    ('В888ВС', 0, 1337, 4),
-    ('Х999УУ93', 1, 1448, 0);
+    ('Х999УУ93', 1, 1300, 2), 
+    ('К123ЕК93', 3, 258, 4),
+    ('К123ЕК93', 2, 228, 3),
+    ('В888ВС', 1, 1337, 5),
+    ('Х999УУ93', 2, 1448, 1);

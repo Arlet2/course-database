@@ -69,13 +69,12 @@ CREATE OR REPLACE TRIGGER delivery_packs_count_trigger
 INSERT INTO batch_delivery 
     (delivery_id, batch_id, amount, mass) 
 VALUES
-    (4, 1, 400, NULL),
-   -- (0, 2, 250, 200),
-    (5, 2, 230, 190),
-    --(1, 2, 100, NULL),
-    (6, 2, 423, NULL);
-    --(4, 1, 800, 700),
-    --(5, 2, 230, 200);
+    (1, 1, 400, NULL),
+    (1, 2, 250, 200),
+    (2, 2, 230, 190),
+    (3, 2, 423, NULL),
+    (4, 1, 800, 700),
+    (5, 2, 230, 200);
    -- (4, 2, 530, 450);
 
 # Test checks
@@ -86,7 +85,7 @@ INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (4, 3, 4
 # Not enought in batch
 INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (4, 2, 700, 100);
 # Not enough in transport
-INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (4, 2, 500, 1000);
+INSERT INTO batch_delivery (delivery_id, batch_id, amount, mass) VALUES (3, 1, 800, 1000), (3, 2, 100, 150);
 
 # Check packs_counts updates (should be equal)
-SELECT packs_count, (SELECT SUM(amount) FROM batch_delivery WHERE delivery_id = 4) as packs_count_sum FROM deliveries WHERE id = 4;
+SELECT packs_count, (SELECT SUM(amount) FROM batch_delivery WHERE delivery_id = 1) as packs_count_sum FROM deliveries WHERE id = 1;

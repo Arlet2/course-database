@@ -14,6 +14,18 @@ fun Application.configureEmployeesRouting() {
 
         }
 
+        get("$apiPath/employees/{id}/payments") {
+            // query by bank name
+        }
+
+        get("$apiPath/employees/{id}/payments/{payment_id}") {
+
+        }
+
+        post("$apiPath/employees/{id}/payments") {
+
+        }
+
         delete("$apiPath/employees/{id}") {
 
         }

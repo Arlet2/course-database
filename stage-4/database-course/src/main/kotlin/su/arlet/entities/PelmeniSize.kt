@@ -1,5 +1,10 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.Entity
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.*
 
 
@@ -7,10 +12,15 @@ data class PelmeniSize(
     val name: String
 )
 
-object PelmeniSizes : Table("pelmeni_sizes") {
-    val name = varchar("name", 255)
+class PelmeniSizeEntity(id: EntityID<String>) : Entity<String>(id) {
+    companion object : EntityClass<String, PelmeniSizeEntity>(PelmeniSizes)
 
-    override val primaryKey = PrimaryKey(name)
+}
+
+object PelmeniSizes : IdTable<String>("pelmeni_sizes") {
+    override val id : Column<EntityID<String>> = varchar("name", 255).entityId()
+
+    override val primaryKey = PrimaryKey(id)
 }
 
 // .

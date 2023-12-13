@@ -1,9 +1,19 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.dao.id.IntIdTable
 import java.time.LocalDate
 
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.greaterEq
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNull
 import org.jetbrains.exposed.sql.javatime.date
+import su.arlet.entities.Conveyors.check
+import su.arlet.entities.Conveyors.nullable
+import su.arlet.entities.Conveyors.references
 
 
 data class Conveyor(
@@ -14,8 +24,17 @@ data class Conveyor(
     val decommissioningDate: LocalDate?
 )
 
-object Conveyors : Table("conveyors") {
-    val id = integer("id").autoIncrement()
+class ConveyorEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : EntityClass<Int, ConveyorEntity>(Conveyors)
+
+    var managerID by Conveyors.managerID
+    var name by Conveyors.name
+    var commissioningDate by Conveyors.commissioningDate
+    var decommissioningDate by Conveyors.decommissioningDate
+}
+
+object Conveyors : IdTable<Int>("conveyors") {
+    override val id: Column<EntityID<Int>> = integer("id").autoIncrement().entityId()
     val managerID = integer("manager_id")
         .references(Employees.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val name = varchar("name", 50).nullable()

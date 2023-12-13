@@ -1,5 +1,9 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.*
 
 
@@ -8,8 +12,14 @@ data class Section (
     val size: Int
 )
 
-object Sections : Table("section") {
-    val id = integer("id").autoIncrement()
+class SectionEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : EntityClass<Int, SectionEntity>(Sections)
+
+    var size by Sections.size
+}
+
+object Sections : IdTable<Int>("section") {
+    override val id : Column<EntityID<Int>> = integer("id").autoIncrement().entityId()
     val size = integer("size").check("positive_size") { it.greaterEq(0) }
 
     override val primaryKey = PrimaryKey(id)

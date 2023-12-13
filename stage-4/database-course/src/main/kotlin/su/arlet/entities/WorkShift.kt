@@ -1,5 +1,9 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
 import java.time.LocalDateTime
 
 import org.jetbrains.exposed.sql.*
@@ -14,8 +18,17 @@ data class WorkShift(
     val timeEnd: LocalDateTime?
 )
 
-object WorkShifts : Table("work_shifts") {
-    val id = integer("id").autoIncrement()
+class WorkShiftEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : EntityClass<Int, WorkShiftEntity>(WorkShifts)
+
+    var batchID by WorkShifts.batchID
+    var conveyorID by WorkShifts.conveyorID
+    var timeStart by WorkShifts.timeStart
+    var timeEnd by WorkShifts.timeEnd
+}
+
+object WorkShifts : IdTable<Int>("work_shifts") {
+    override val id : Column<EntityID<Int>> = integer("id").autoIncrement().entityId()
     val batchID = integer("batch_id")
         .references(Batches.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val conveyorID = integer("conveyor_id")

@@ -6,10 +6,8 @@ import io.ktor.server.netty.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import su.arlet.api.configureEmployeesRouting
-import su.arlet.entities.Documents
-import su.arlet.entities.Employees
-import su.arlet.entities.PaymentsInfo
+import su.arlet.api.*
+import su.arlet.entities.*
 import su.arlet.plugins.*
 
 const val driverClassName = "org.postgresql.Driver"
@@ -23,19 +21,26 @@ fun main() {
 }
 
 fun Application.module() {
+    val host = "localhost"
+    val port = "5432"
+    val username = "postgres"
+    val password = "mysecretpassword"
+    val name = "postgres"
+
+
     val url = "jdbc:postgresql://" +
-            environment.config.property("database.host").getString() +
-            ":" + environment.config.property("database.port").getString() +
-            "/" + environment.config.property("database.name").getString()
+            host +
+            ":" + port +
+            "/" + name
     val database = Database.connect(
         url = url,
         driver = driverClassName,
-        user = environment.config.property("database.username").getString(),
-        password = environment.config.property("database.password").getString()
+        user = username,
+        password = password
     )
 
     transaction(database) {
-        SchemaUtils.create(Documents, Employees, PaymentsInfo)
+        initDatabase()
     }
 
     configureHTTP()
@@ -45,5 +50,29 @@ fun Application.module() {
 }
 
 fun Application.configureRouting() {
+    configureBatchesRouting()
+    configureConveyorsRouting()
+    configureDeliveriesRouting()
+    configureDocumentsRouting()
     configureEmployeesRouting()
+    configureFactoriesRouting()
+    configurePaymentsRouting()
+    configurePelmeniSizeRouting()
+    configurePelmeniTypesRouting()
+    configureSectionsRouting()
+    configureTechReportsRouting()
+    configureTransportsRouting()
+    configureWorkShiftsRouting()
+}
+
+fun initDatabase() {
+    SchemaUtils.create(
+        Batches, BatchDeliveries, Conveyors,
+        ConveyorPelmenies, Deliveries, DeliveryPoints,
+        DeliveryPointTypes, Documents, Employees,
+        Factories, PaymentsInfo, PelmeniSizes,
+        PelmeniTypes, PelmeniTypeIngredients, Sections,
+        TechReports, Transports, WorkShifts,
+        WorkShiftEmployees
+    )
 }

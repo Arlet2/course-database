@@ -1,5 +1,8 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.*
 
 
@@ -9,6 +12,15 @@ data class BatchDelivery(
     val amount: Int,
     val mass: Double?
 )
+
+//class BatchDeliveryEntity(id: EntityID<Int>) : IntEntity(id) {
+//    companion object : EntityClass<Int, WorkShiftEntity>(BatchDeliveries)
+//
+//    var batchID by WorkShifts.batchID
+//    var conveyorID by WorkShifts.conveyorID
+//    var timeStart by WorkShifts.timeStart
+//    var timeEnd by WorkShifts.timeEnd
+//}
 
 object BatchDeliveries : Table("batch_delivery") {
     val deliveryID = integer("delivery_id")

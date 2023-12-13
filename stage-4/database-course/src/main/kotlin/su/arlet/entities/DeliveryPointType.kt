@@ -1,5 +1,9 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.Entity
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.*
 
 
@@ -7,10 +11,14 @@ data class DeliveryPointType(
     val name: String
 )
 
-object DeliveryPointTypes : Table("delivery_point_types") {
-    val name = varchar("name", 255)
+class DeliveryPointTypeEntity(name: EntityID<String>) : Entity<String>(name) {
+    companion object : EntityClass<String, DeliveryPointTypeEntity>(DeliveryPointTypes)
+}
 
-    override val primaryKey = PrimaryKey(name)
+object DeliveryPointTypes : IdTable<String>("delivery_point_types") {
+    override val id : Column<EntityID<String>> = varchar("name", 255).entityId()
+
+    override val primaryKey = PrimaryKey(id)
 }
 
 // .

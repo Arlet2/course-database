@@ -1,5 +1,10 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.javatime.timestamp
 import java.time.LocalDateTime
@@ -15,10 +20,21 @@ data class Delivery(
     val arrivalDate: LocalDateTime?
 )
 
-object Deliveries : Table("deliveries") {
-    val id = integer("id").autoIncrement()
+class DeliveryEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : EntityClass<Int, DeliveryEntity>(Deliveries)
+
+    var transportNumber by Deliveries.transportNumber
+    var deliveryPointID by Deliveries.deliveryPointID
+    var packsCount by Deliveries.packsCount
+    var factoryID by Deliveries.factoryID
+    var departureDate by Deliveries.departureDate
+    var arrivalDate by Deliveries.arrivalDate
+}
+
+object Deliveries : IdTable<Int>("deliveries") {
+    override val id: Column<EntityID<Int>> = integer("id").autoIncrement().entityId()
     val transportNumber = varchar("transport_number", 10)
-        .references(Transports.transportNumber, onDelete = ReferenceOption.SET_NULL).nullable()
+        .references(Transports.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val deliveryPointID = integer("delivery_point_id")
         .references(DeliveryPoints.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val packsCount = integer("packs_count").nullable()

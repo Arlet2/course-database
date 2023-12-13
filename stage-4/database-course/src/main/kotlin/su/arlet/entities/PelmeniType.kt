@@ -1,5 +1,9 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.*
 
 
@@ -9,8 +13,15 @@ data class PelmeniType(
     val recipe: String
 )
 
-object PelmeniTypes : Table("pelmeni_types") {
-    val id = integer("id").autoIncrement()
+class PelmeniTypeEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : EntityClass<Int, PelmeniTypeEntity>(PelmeniTypes)
+
+    var name by PelmeniTypes.name
+    var recipe by PelmeniTypes.recipe
+}
+
+object PelmeniTypes : IdTable<Int>("pelmeni_types") {
+    override val id: Column<EntityID<Int>> = integer("id").autoIncrement().entityId()
     val name = varchar("name", 255)
     val recipe = text("recipe")
 

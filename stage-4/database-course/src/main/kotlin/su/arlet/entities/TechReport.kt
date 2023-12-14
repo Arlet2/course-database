@@ -1,5 +1,9 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
 import java.time.LocalDateTime
 
 import org.jetbrains.exposed.sql.*
@@ -15,8 +19,18 @@ data class TechReport(
     val description: String?
 )
 
-object TechReports : Table("tech_reports") {
-    val id = integer("id").autoIncrement()
+class TechReportEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : EntityClass<Int, TechReportEntity>(TechReports)
+
+    var reporterID by TechReports.reporterID
+    var shiftID by TechReports.shiftID
+    var state by TechReports.state
+    var created by TechReports.created
+    var description by TechReports.description
+}
+
+object TechReports : IdTable<Int>("tech_reports") {
+    override val id: Column<EntityID<Int>> = integer("id").autoIncrement().entityId()
     val reporterID = integer("reporter_id")
         .references(Employees.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val shiftID = integer("shift_id")

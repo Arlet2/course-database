@@ -1,13 +1,29 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.Entity
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 
 
-data class ConveyorPelmeni (
+data class ConveyorPelmeni(
     val conveyorId: Int,
     val typeId: Int,
     val sizeName: String
 )
+
+//class ConveyorPelmeniEntity(conveyorId: Entity<Int>, typeId: Entity<Int>, sizeName: Entity<String>) :
+//    Entity(conveyorId, typeId, sizeName) {
+//    companion object : EntityClass<Int, ConveyorEntity>(Conveyors)
+//
+//    var conveyorID by ConveyorPelmenies.conveyorId
+//    var name by Conveyors.name
+//    var commissioningDate by Conveyors.commissioningDate
+//    var decommissioningDate by Conveyors.decommissioningDate
+//}
 
 object ConveyorPelmenies : Table("conveyor_pelmeni") {
     val conveyorId = integer("conveyor_id")
@@ -15,7 +31,7 @@ object ConveyorPelmenies : Table("conveyor_pelmeni") {
     val typeId = integer("type_id")
         .references(PelmeniTypes.id, onDelete = ReferenceOption.CASCADE)
     val sizeName = varchar("size_name", 255)
-        .references(PelmeniSizes.name, onDelete = ReferenceOption.CASCADE)
+        .references(PelmeniSizes.id, onDelete = ReferenceOption.CASCADE)
 
     override val primaryKey = PrimaryKey(conveyorId, typeId, sizeName)
 }

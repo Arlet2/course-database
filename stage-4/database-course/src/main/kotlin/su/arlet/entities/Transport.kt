@@ -1,5 +1,9 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.Entity
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.*
 
 
@@ -9,14 +13,21 @@ data class Transport(
     val maxWeight: Double?
 )
 
-object Transports : Table("transports") {
-    val transportNumber = varchar("transport_number", 10)
+class TransportEntity(id: EntityID<String>) : Entity<String>(id) {
+    companion object : EntityClass<String, TransportEntity>(Transports)
+
+    var packsCapacity by Transports.packsCapacity
+    var maxWeight by Transports.maxWeight
+}
+
+object Transports : IdTable<String>("transports") {
+    override val id : Column<EntityID<String>> = varchar("transport_number", 10).entityId()
     val packsCapacity = integer("packs_capacity")
         .check("positive_capacity") { it.greaterEq(0) }
     val maxWeight = double("max_weight").nullable()
         .check("positive_weight") { it.isNull().or(it.greaterEq(0.0)) }
 
-    override val primaryKey = PrimaryKey(transportNumber)
+    override val primaryKey = PrimaryKey(id)
 }
 
 // .

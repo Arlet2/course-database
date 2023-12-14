@@ -1,5 +1,9 @@
 package su.arlet.entities
 
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.*
 
 
@@ -10,11 +14,19 @@ data class DeliveryPoint(
     val packsCapacity: Int
 )
 
-object DeliveryPoints : Table("delivery_points") {
-    val id = integer("id").autoIncrement()
+class DeliveryPointEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : EntityClass<Int, DeliveryPointEntity>(DeliveryPoints)
+
+    var address by DeliveryPoints.id
+    var pointType by DeliveryPoints.pointType
+    var packsCapacity by DeliveryPoints.packsCapacity
+}
+
+object DeliveryPoints : IdTable<Int>("delivery_points") {
+    override val id: Column<EntityID<Int>> = integer("id").autoIncrement().entityId()
     val address = varchar("address", 255)
     val pointType = varchar("point_type", 255)
-        .references(DeliveryPointTypes.name, onDelete = ReferenceOption.SET_NULL).nullable()
+        .references(DeliveryPointTypes.id, onDelete = ReferenceOption.SET_NULL).nullable()
     val packsCapacity = integer("packs_capacity")
 
     override val primaryKey = PrimaryKey(id)

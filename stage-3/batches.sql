@@ -35,5 +35,4 @@ VALUES
 );
 
 
-CREATE INDEX ON batches USING HASH (shift_id);
 CREATE INDEX ON batches USING HASH (factory_id);

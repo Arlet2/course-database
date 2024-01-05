@@ -5,17 +5,16 @@ import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.time.LocalDate
-
 @Entity
 @Table(name = "freezings_info")
-data class FreezingInfoObject(
+data class FreezingInfo(
     @Id
     @ManyToOne
-    val batch: Batch? = null,
+    val batch: Batch,
     @Id
     @ManyToOne
-    val section: Section? = null,
-    val temperature: Double? = null,
-    val loadDate: LocalDate? = null,
-    val uploadDate: LocalDate? = null,
+    val section: Section,
+    val temperature: Double,
+    val loadDate: LocalDate,
+    val uploadDate: LocalDate?,
 )

@@ -7,6 +7,6 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "sections")
 data class Section(
-    @Id val id: Int? = null,
-    val size: Int? = null,
+    @Id val id: Int,
+    val size: Int,
 )

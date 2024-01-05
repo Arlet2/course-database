@@ -7,7 +7,7 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "transports")
 data class Transport(
-    @Id val transportNumber: String? = null,
-    val packsCapacity: Int? = null,
-    val maxWeight: Double? = null,
+    @Id val transportNumber: String,
+    val packsCapacity: Int?,
+    val maxWeight: Double?,
 )

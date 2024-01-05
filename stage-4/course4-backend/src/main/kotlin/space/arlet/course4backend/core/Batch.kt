@@ -10,16 +10,18 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "batches")
 data class Batch(
-    @Id val id: Int? = null,
+    @Id val id: Int,
     @OneToOne
-    val shift: WorkShift? = null,
-    val pelmeniType: Int? = null,
-    val pelmeniSize: String? = null,
-    val summaryMass: Double? = null,
-    val created: LocalDateTime? = null,
+    val shift: WorkShift?,
     @ManyToOne
-    val factory: Factory? = null,
-    val packageTime: LocalDateTime? = null,
-    val packsCount: Int? = null,
-    val massOfDefective: Double? = null,
+    val pelmeniType: PelmeniType?,
+    @ManyToOne
+    val pelmeniSize: PelmeniSize?,
+    val summaryMass: Double,
+    val created: LocalDateTime,
+    @ManyToOne
+    val factory: Factory,
+    val packageTime: LocalDateTime?,
+    val packsCount: Int?,
+    val massOfDefective: Double?,
 )

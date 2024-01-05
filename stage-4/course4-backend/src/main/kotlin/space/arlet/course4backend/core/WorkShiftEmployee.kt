@@ -10,9 +10,9 @@ import jakarta.persistence.Table
 data class WorkShiftEmployee(
     @Id
     @ManyToOne
-    val employee: Employee? = null,
+    val employee: Employee,
     @Id
     @ManyToOne
-    val shift: WorkShift? = null,
-    val shiftManager: Boolean? = null,
+    val shift: WorkShift,
+    val shiftManager: Boolean?,
 )

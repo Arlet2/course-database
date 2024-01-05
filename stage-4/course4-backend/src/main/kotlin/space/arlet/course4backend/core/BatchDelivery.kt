@@ -7,10 +7,10 @@ import jakarta.persistence.*
 data class BatchDelivery(
     @ManyToOne
     @Id
-    val delivery: Delivery? = null,
+    val delivery: Delivery,
     @ManyToOne
     @Id
-    val batch: Batch? = null,
-    val amount: Int? = null,
-    val mass: Double? = null,
+    val batch: Batch,
+    val amount: Int,
+    val mass: Double?,
 )

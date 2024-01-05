@@ -9,12 +9,13 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "deliveries")
 data class Delivery(
-    @Id val id: Int? = null,
-    val transportNumber: String? = null,
+    @Id val id: Int,
+    val transportNumber: String?,
     @ManyToOne
-    val deliveryPoint: DeliveryPoint? = null,
-    val packsCount: Int? = null,
-    val factoryID: Int? = null,
-    val departureDate: LocalDateTime? = null,
-    val arrivalDate: LocalDateTime? = null,
+    val deliveryPoint: DeliveryPoint?,
+    val packsCount: Int?,
+    @ManyToOne
+    val factory: Factory,
+    val departureDate: LocalDateTime?,
+    val arrivalDate: LocalDateTime?,
 )

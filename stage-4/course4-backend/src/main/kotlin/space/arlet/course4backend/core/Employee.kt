@@ -9,13 +9,13 @@ import java.time.LocalDate
 @Entity
 @Table(name = "employees")
 data class Employee(
-    @Id val id: Int? = null,
-    val fullName: String? = null,
-    val jobTitle: String? = null,
-    val employmentDate: LocalDate? = null,
-    val dismissalDate: LocalDate? = null,
+    @Id val id: Int,
+    val fullName: String,
+    val jobTitle: String?,
+    val employmentDate: LocalDate,
+    val dismissalDate: LocalDate?,
     @OneToMany
-    val paymentInfo: List<PaymentInfo>? = null,
+    val paymentInfo: List<PaymentInfo>?,
     @OneToMany
-    val agreement: List<Document>? = null,
+    val agreement: List<Document>?,
 )

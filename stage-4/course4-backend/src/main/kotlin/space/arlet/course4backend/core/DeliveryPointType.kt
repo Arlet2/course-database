@@ -7,5 +7,5 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "delivery_point_types")
 data class DeliveryPointType(
-    @Id val name: String? = null,
+    @Id val name: String,
 )

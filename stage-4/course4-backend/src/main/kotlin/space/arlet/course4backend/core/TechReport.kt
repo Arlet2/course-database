@@ -9,12 +9,12 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "tech_reports")
 data class TechReport(
-    @Id val id: Int? = null,
+    @Id val id: Int,
     @ManyToOne
-    val reporter: Employee? = null,
+    val reporter: Employee,
     @ManyToOne
-    val shift: WorkShift? = null,
-    val state: Int? = null,
-    val created: LocalDateTime? = null,
-    val description: String? = null,
+    val shift: WorkShift,
+    val state: Int,
+    val created: LocalDateTime?,
+    val description: String?,
 )

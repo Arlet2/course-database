@@ -8,9 +8,9 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "delivery_points")
 data class DeliveryPoint(
-    @Id val id: Int? = null,
-    val address: String? = null,
+    @Id val id: Int,
+    val address: String,
     @ManyToOne
-    val pointType: DeliveryPointType? = null,
-    val packsCapacity: Int? = null,
+    val pointType: DeliveryPointType?,
+    val packsCapacity: Int,
 )

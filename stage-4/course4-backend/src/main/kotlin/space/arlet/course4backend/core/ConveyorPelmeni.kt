@@ -10,11 +10,11 @@ import jakarta.persistence.Table
 data class ConveyorPelmeni(
     @Id
     @ManyToOne
-    val conveyor: Conveyor? = null,
+    val conveyor: Conveyor,
     @Id
     @ManyToOne
-    val type: PelmeniType? = null,
+    val type: PelmeniType,
     @Id
     @ManyToOne
-    val sizeName: PelmeniSize? = null,
+    val sizeName: PelmeniSize,
 )

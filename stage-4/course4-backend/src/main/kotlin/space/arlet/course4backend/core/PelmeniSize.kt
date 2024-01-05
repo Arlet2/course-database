@@ -7,5 +7,5 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "pelmeni_sizes")
 data class PelmeniSize(
-    @Id val name: String? = null,
+    @Id val name: String,
 )

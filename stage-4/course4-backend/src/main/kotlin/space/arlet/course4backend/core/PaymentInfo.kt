@@ -7,12 +7,12 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "payments_info")
 data class PaymentInfo(
-    @Id val id: Int? = null,
-    val salary: Int? = null,
-    val bankName: String? = null,
-    val accountNumber: String? = null,
-    val bik: String? = null,
-    val corrAccount: String? = null,
-    val inn: String? = null,
-    val kpp: String? = null,
+    @Id val id: Int,
+    val salary: Int,
+    val bankName: String,
+    val accountNumber: String,
+    val bik: String?,
+    val corrAccount: String?,
+    val inn: String?,
+    val kpp: String?,
 )

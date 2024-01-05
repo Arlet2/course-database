@@ -9,10 +9,12 @@ import java.time.LocalDate
 @Entity
 @Table(name = "conveyors")
 data class Conveyor(
-    @Id val id: Int? = null,
+    @Id val id: Int,
     @ManyToOne
-    val manager: Employee? = null,
-    val name: String? = null,
-    val commissioningDate: LocalDate? = null,
-    val decommissioningDate: LocalDate? = null,
+    val manager: Employee,
+    val name: String?,
+    val commissioningDate: LocalDate?,
+    @ManyToOne
+    val factory: Factory?,
+    val decommissioningDate: LocalDate?,
 )

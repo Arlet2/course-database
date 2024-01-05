@@ -7,6 +7,6 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "factories")
 data class Factory(
-    @Id val id: Int? = null,
-    val address: String? = null,
+    @Id val id: Int,
+    val address: String,
 )

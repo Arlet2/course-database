@@ -8,10 +8,10 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "documents")
 data class Document(
-    @Id val id: Int? = null,
-    val name: String? = null,
-    val dataURL: String? = null,
+    @Id val id: Int,
+    val name: String,
+    val dataURL: String,
     @ManyToOne
-    val owner: Employee? = null,
-    val signed: Boolean? = null,
+    val owner: Employee?,
+    val signed: Boolean?,
 )

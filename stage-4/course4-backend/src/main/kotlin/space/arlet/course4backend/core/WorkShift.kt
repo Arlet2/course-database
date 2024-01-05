@@ -9,11 +9,11 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "work_shifts")
 data class WorkShift(
-    @Id val id: Int? = null,
+    @Id val id: Int,
     @OneToOne
-    val batch: Batch? = null,
+    val batch: Batch,
     @OneToOne
-    val conveyor: Conveyor? = null,
-    val timeStart: LocalDateTime? = null,
-    val timeEnd: LocalDateTime? = null,
+    val conveyor: Conveyor,
+    val timeStart: LocalDateTime?,
+    val timeEnd: LocalDateTime?,
 )

@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 data class PelmeniTypeIngredient(
     @Id
     @ManyToOne
-    val type: PelmeniType? = null,
-    @Id val ingredientName: String? = null,
-    val weight: Double? = null,
+    val type: PelmeniType,
+    @Id val ingredientName: String,
+    val weight: Double,
 )

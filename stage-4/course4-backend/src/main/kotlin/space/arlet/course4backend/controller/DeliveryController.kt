@@ -2,7 +2,7 @@ package space.arlet.course4backend.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.ExampleObject
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,16 +20,17 @@ class DeliveryController(
     @Operation(summary = "Get all deliveries")
     @ApiResponses(
         value = [
-            ApiResponse(responseCode = "200", description = "Successfully getting all deliveries"),
             ApiResponse(
-                responseCode = "404", description = "No such delivery was found", content = arrayOf(
-                    Content(examples = arrayOf(ExampleObject(value = "")))
+                responseCode = "200", description = "Successfully getting all deliveries",
+                content = arrayOf(
+                    Content(mediaType = "application/json", schema = Schema(implementation = Delivery::class))
                 )
             ),
             ApiResponse(
-                responseCode = "500", description = "Internal error", content = arrayOf(
-                    Content(examples = arrayOf(ExampleObject(value = "")))
-                )
+                responseCode = "404", description = "No such delivery was found", content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "500", description = "Internal error", content = arrayOf(Content()),
             )
         ]
     )

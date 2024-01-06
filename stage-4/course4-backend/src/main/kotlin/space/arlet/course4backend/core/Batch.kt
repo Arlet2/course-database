@@ -1,16 +1,14 @@
 package space.arlet.course4backend.core
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "batches")
 data class Batch(
-    @Id val id: Int,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Int,
     @OneToOne
     val shift: WorkShift?,
     @ManyToOne

@@ -1,12 +1,12 @@
 package space.arlet.course4backend.core
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "factories")
 data class Factory(
-    @Id val id: Int,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    val id: Int,
     val address: String,
 )

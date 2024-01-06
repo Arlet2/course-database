@@ -1,16 +1,16 @@
 package space.arlet.course4backend.core
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "deliveries")
 data class Delivery(
-    @Id val id: Int,
-    val transportNumber: String?,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    val id: Int?,
+    @ManyToOne
+    val transport: Transport?,
     @ManyToOne
     val deliveryPoint: DeliveryPoint?,
     val packsCount: Int?,

@@ -166,16 +166,18 @@ function DeliveryPoints() {
       return;
     }
 
-    queryObject.packsCapacity = Number(queryObject.packsCapacity);
+    if (queryObject.packsCapacity != null) {
+      queryObject.packsCapacity = Number(queryObject.packsCapacity);
 
-    if (!Number.isInteger(queryObject.packsCapacity)) {
-      setQueryStatus("Количество пачек должно быть целым числом");
-      return;
-    }
+      if (!Number.isInteger(queryObject.packsCapacity)) {
+        setQueryStatus("Количество пачек должно быть целым числом");
+        return;
+      }
 
-    if (queryObject.packsCapacity < 0) {
-      setQueryStatus("Количество пачек должно быть больше 0");
-      return;
+      if (queryObject.packsCapacity < 0) {
+        setQueryStatus("Количество пачек должно быть больше 0");
+        return;
+      }
     }
 
     let query = "";

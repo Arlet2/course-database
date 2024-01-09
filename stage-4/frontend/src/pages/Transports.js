@@ -199,7 +199,7 @@ function Transports() {
         <div className="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
           <div className="flex justify-between pt-5 pb-3 px-3">
             <div className="flex gap-4 justify-center items-center ">
-              <span className="font-bold">Транспорты</span>
+              <span className="font-bold">Транспорт</span>
               <div className="flex gap-4">
                 <label
                   htmlFor="packsCapacity"

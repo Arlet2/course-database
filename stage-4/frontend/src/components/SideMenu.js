@@ -37,7 +37,7 @@ function SideMenu() {
                     src={require("../assets/transport-icon.png")}
                     style={{ width: "1.25em" }}
                   />
-                  <span className="text-sm font-medium"> Транспорты </span>
+                  <span className="text-sm font-medium"> Транспорт </span>
                 </div>
               </Link>
             </summary>

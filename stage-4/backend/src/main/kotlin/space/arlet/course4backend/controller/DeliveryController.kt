@@ -34,11 +34,11 @@ class DeliveryController @Autowired constructor(
     private val rangeFilter: RangeFilter,
 ) {
     data class DeliveryCreatingEntity(
-        val id: Int?,
+        val id: Int,
         val transportNumber: String?,
         val deliveryPointID: Int?,
         val packsCount: Int?,
-        val factoryID: Int,
+        val factoryID: Int?,
         val departureDate: LocalDateTime?,
         val arrivalDate: LocalDateTime?,
     )
@@ -103,7 +103,7 @@ class DeliveryController @Autowired constructor(
             )
                 return@filter false
 
-            if (!rangeFilter.equal(it.factory.id, factoryID))
+            if (!rangeFilter.equal(it.factory?.id, factoryID))
                 return@filter false
 
             if (!dateFilter.isDateValid(it.departureDate, departureDateBefore, departureDateAfter, departureDateOn))
@@ -113,7 +113,7 @@ class DeliveryController @Autowired constructor(
                 return@filter false
 
             return@filter true
-        }
+        }.sortedBy { it.id }
 
         if (deliveries.isEmpty()) {
             throw EntityNotFoundException("deliveries")
@@ -144,7 +144,7 @@ class DeliveryController @Autowired constructor(
         ]
     )
     @PostMapping("\${api.path}/deliveries")
-    fun addDelivery(@RequestBody delivery: DeliveryCreatingEntity): EntityCreatedResponse<Int> {
+    fun addDelivery(@RequestBody delivery: DeliveryCreatingEntity): ResponseEntity<EntityCreatedResponse<Int>> {
         try {
             val createdEntity = deliveryRepo.save(
                 Delivery(
@@ -156,15 +156,17 @@ class DeliveryController @Autowired constructor(
                         deliveryPointRepo.findById(it).orElseThrow { throw EntityNotFoundException("delivery point") }
                     },
                     packsCount = delivery.packsCount,
-                    factory = factoryRepo.findById(delivery.factoryID).orElseThrow {
-                        throw EntityNotFoundException("factory")
+                    factory = delivery.factoryID?.let {
+                        factoryRepo.findById(it).orElseThrow {
+                            throw EntityNotFoundException("factory")
+                        }
                     },
                     departureDate = delivery.departureDate,
                     arrivalDate = delivery.arrivalDate,
                 )
             )
 
-            return EntityCreatedResponse(createdEntity.id)
+            return ResponseEntity(EntityCreatedResponse(createdEntity.id), HttpStatus.CREATED)
         } catch (_: IllegalArgumentException) {
             throw BadEntityException("entity was empty")
         }
@@ -234,5 +236,53 @@ class DeliveryController @Autowired constructor(
         }
 
         return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    @Operation(summary = "Update delivery")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Successfully updating delivery",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "In case if bad json body was provided",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "500", description = "Internal error", content = arrayOf(Content()),
+            )
+        ]
+    )
+    @PutMapping("\${api.path}/deliveries")
+    @ResponseBody
+    fun updateTransport(
+        @RequestBody delivery: DeliveryCreatingEntity
+    ) {
+        try {
+            deliveryRepo.save(
+                Delivery(
+                    id = delivery.id,
+                    transport = delivery.transportNumber?.let {
+                        transportRepo.findById(it).orElseThrow { throw EntityNotFoundException("transport") }
+                    },
+                    deliveryPoint = delivery.deliveryPointID?.let {
+                        deliveryPointRepo.findById(it).orElseThrow { throw EntityNotFoundException("delivery point") }
+                    },
+                    packsCount = delivery.packsCount,
+                    factory = delivery.factoryID?.let {
+                        factoryRepo.findById(it).orElseThrow {
+                            throw EntityNotFoundException("factory")
+                        }
+                    },
+                    departureDate = delivery.departureDate,
+                    arrivalDate = delivery.arrivalDate,
+                )
+            )
+        } catch (_: IllegalArgumentException) {
+            throw BadEntityException("entity was empty")
+        }
     }
 }

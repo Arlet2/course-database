@@ -15,15 +15,16 @@ import org.springframework.web.bind.annotation.*
 import space.arlet.course4backend.controller.filters.RangeFilter
 import space.arlet.course4backend.controller.responses.EntityCreatedResponse
 import space.arlet.course4backend.core.DeliveryPoint
-import space.arlet.course4backend.core.Transport
 import space.arlet.course4backend.exceptions.BadEntityException
 import space.arlet.course4backend.exceptions.EntityNotFoundException
 import space.arlet.course4backend.repo.DeliveryPointRepo
+import space.arlet.course4backend.repo.DeliveryPointTypeRepo
 
 @RestController
 class DeliveryPointController @Autowired constructor(
     val deliveryPointRepo: DeliveryPointRepo,
     val rangeFilter: RangeFilter,
+    val deliveryPointTypeRepo: DeliveryPointTypeRepo,
 ) {
     @Operation(summary = "Get all delivery points")
     @ApiResponses(
@@ -74,7 +75,7 @@ class DeliveryPointController @Autowired constructor(
                 return@filter false
             return@filter true
 
-        }
+        }.sortedBy { it.id }
 
         if (deliveryPoints.isEmpty()) {
             throw EntityNotFoundException("delivery points")
@@ -108,11 +109,11 @@ class DeliveryPointController @Autowired constructor(
     )
     @PostMapping("\${api.path}/delivery_points")
     @ResponseBody
-    fun addDeliveryPoint(@RequestBody deliveryPoint: DeliveryPoint): EntityCreatedResponse<Int> {
+    fun addDeliveryPoint(@RequestBody deliveryPoint: DeliveryPoint): ResponseEntity<EntityCreatedResponse<Int>> {
         try {
             val createdEntity = deliveryPointRepo.save(deliveryPoint)
 
-            return EntityCreatedResponse(createdEntity.id)
+            return ResponseEntity(EntityCreatedResponse(createdEntity.id), HttpStatus.CREATED)
         } catch (_: IllegalArgumentException) {
             throw BadEntityException("entity was empty")
         }
@@ -176,11 +177,74 @@ class DeliveryPointController @Autowired constructor(
     )
     @DeleteMapping("\${api.path}/delivery_points/{id}")
     fun deleteDeliveryPoint(@PathVariable id: Int): ResponseEntity<String> {
-        if (deliveryPointRepo.existsById(id)) {
+        val deliveryPoint = deliveryPointRepo.findById(id)
+        if (deliveryPoint.isPresent) {
             deliveryPointRepo.deleteById(id)
             return ResponseEntity(HttpStatus.OK)
         }
 
         return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    @Operation(summary = "Update delivery point")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Successfully updating delivery point",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "In case if bad json body was provided",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "500", description = "Internal error", content = arrayOf(Content()),
+            )
+        ]
+    )
+    @PutMapping("\${api.path}/delivery_points")
+    @ResponseBody
+    fun updateDeliveryPoint(
+        @RequestBody deliveryPoint: DeliveryPoint,
+    ) {
+        try {
+            deliveryPointRepo.save(deliveryPoint)
+        } catch (_: IllegalArgumentException) {
+            throw BadEntityException("entity was empty")
+        }
+    }
+
+    @Operation(summary = "Get all delivery point types")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Successfully getting all delivery point types",
+                content = arrayOf(
+                    Content(
+                        mediaType = "application/json",
+                        array = ArraySchema(schema = Schema(implementation = String::class))
+                    ),
+                )
+            ),
+            ApiResponse(
+                responseCode = "404", description = "No such factory was found", content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "500", description = "Internal error", content = arrayOf(Content()),
+            )
+        ]
+    )
+    @GetMapping("\${api.path}/delivery_points/types")
+    @ResponseBody
+    fun getDeliveryPointTypes(): List<String> {
+        val deliveryPointTypes = deliveryPointTypeRepo.findAll().toList().map { it.name }
+
+        if (deliveryPointTypes.isEmpty()) {
+            throw EntityNotFoundException("delivery point types")
+        }
+
+        return deliveryPointTypes
     }
 }

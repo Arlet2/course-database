@@ -16,6 +16,7 @@ import space.arlet.course4backend.controller.filters.RangeFilter
 import space.arlet.course4backend.controller.responses.EntityCreatedResponse
 import space.arlet.course4backend.core.Transport
 import space.arlet.course4backend.exceptions.BadEntityException
+import space.arlet.course4backend.exceptions.EntityExistsException
 import space.arlet.course4backend.exceptions.EntityNotFoundException
 import space.arlet.course4backend.repo.TransportRepo
 
@@ -81,7 +82,7 @@ class TransportController @Autowired constructor(
                 return@filter false
             return@filter true
 
-        }
+        }.sortedBy { it.transportNumber }
 
         if (transports.isEmpty()) {
             throw EntityNotFoundException("transports")
@@ -104,6 +105,11 @@ class TransportController @Autowired constructor(
                 )
             ),
             ApiResponse(
+                responseCode = "208",
+                description = "Transport already exists",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
                 responseCode = "400",
                 description = "In case if bad json body was provided",
                 content = arrayOf(Content())
@@ -115,11 +121,15 @@ class TransportController @Autowired constructor(
     )
     @PostMapping("\${api.path}/transports")
     @ResponseBody
-    fun addTransport(@RequestBody transport: Transport): EntityCreatedResponse<String> {
+    fun addTransport(@RequestBody transport: Transport): ResponseEntity<EntityCreatedResponse<String>> {
+        if (transport.transportNumber == "")
+            throw BadEntityException("transport number must be not empty")
+        if (transportRepo.existsById(transport.transportNumber))
+            throw EntityExistsException()
         try {
             val createdEntity = transportRepo.save(transport)
 
-            return EntityCreatedResponse(createdEntity.transportNumber)
+            return ResponseEntity(EntityCreatedResponse(createdEntity.transportNumber), HttpStatus.CREATED)
         } catch (_: IllegalArgumentException) {
             throw BadEntityException("entity was empty")
         }
@@ -189,5 +199,35 @@ class TransportController @Autowired constructor(
         }
 
         return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    @Operation(summary = "Update transport")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Successfully updating transport",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "In case if bad json body was provided",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "500", description = "Internal error", content = arrayOf(Content()),
+            )
+        ]
+    )
+    @PutMapping("\${api.path}/transports")
+    @ResponseBody
+    fun updateTransport(
+        @RequestBody transport: Transport
+    ) {
+        try {
+            transportRepo.save(transport)
+        } catch (_: IllegalArgumentException) {
+            throw BadEntityException("entity was empty")
+        }
     }
 }

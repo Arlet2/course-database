@@ -1,15 +1,14 @@
 package space.arlet.course4backend.core
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
 @Table(name = "conveyors")
 data class Conveyor(
-    @Id val id: Int,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    val id: Int,
     @ManyToOne
     val manager: Employee,
     val name: String?,

@@ -21,9 +21,10 @@ class RangeFilter {
             if (eq != null)
                 if (value != eq)
                     return false
+            return true
         }
 
-        return true
+        return greater == null && greaterEq == null && less == null && lessEq == null && eq == null
     }
 
     fun <T> equal(value: T?, eq: T?): Boolean {

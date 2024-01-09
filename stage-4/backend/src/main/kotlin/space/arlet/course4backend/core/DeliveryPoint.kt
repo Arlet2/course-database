@@ -1,14 +1,13 @@
 package space.arlet.course4backend.core
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "delivery_points")
 data class DeliveryPoint(
-    @Id val id: Int,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    val id: Int,
     val address: String,
     @ManyToOne
     val pointType: DeliveryPointType?,

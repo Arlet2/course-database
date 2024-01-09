@@ -21,7 +21,8 @@ class DateFilter {
             if (onRestriction != null)
                 if (!date.isEqual(onRestriction))
                     return false
+            return true
         }
-        return true
+        return beforeRestriction == null && afterRestriction == null && onRestriction == null
     }
 }

@@ -16,11 +16,13 @@ import space.arlet.course4backend.controller.responses.EntityCreatedResponse
 import space.arlet.course4backend.core.Factory
 import space.arlet.course4backend.exceptions.BadEntityException
 import space.arlet.course4backend.exceptions.EntityNotFoundException
+import space.arlet.course4backend.repo.DeliveryRepo
 import space.arlet.course4backend.repo.FactoryRepo
 
 @RestController
 class FactoryController @Autowired constructor(
-    private val factoryRepo: FactoryRepo
+    private val factoryRepo: FactoryRepo,
+    private val deliveryRepo: DeliveryRepo,
 ) {
     @Operation(summary = "Get all factories")
     @ApiResponses(
@@ -45,7 +47,7 @@ class FactoryController @Autowired constructor(
     @GetMapping("\${api.path}/factories")
     @ResponseBody
     fun getFactories(): List<Factory> {
-        val factories = factoryRepo.findAll().toList()
+        val factories = factoryRepo.findAll().toList().sortedBy { it.id }
 
         if (factories.isEmpty()) {
             throw EntityNotFoundException("factories")
@@ -68,6 +70,11 @@ class FactoryController @Autowired constructor(
                 )
             ),
             ApiResponse(
+                responseCode = "208",
+                description = "Factory already exists",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
                 responseCode = "400",
                 description = "In case if bad json body was provided",
                 content = arrayOf(Content())
@@ -79,11 +86,11 @@ class FactoryController @Autowired constructor(
     )
     @PostMapping("\${api.path}/factories")
     @ResponseBody
-    fun addFactory(@RequestBody factory: Factory): EntityCreatedResponse<Int> {
+    fun addFactory(@RequestBody factory: Factory): ResponseEntity<EntityCreatedResponse<Int>> {
         try {
             val createdEntity = factoryRepo.save(factory)
 
-            return EntityCreatedResponse(createdEntity.id)
+            return ResponseEntity(EntityCreatedResponse(createdEntity.id), HttpStatus.CREATED)
         } catch (_: IllegalArgumentException) {
             throw BadEntityException("entity was empty")
         }
@@ -147,11 +154,46 @@ class FactoryController @Autowired constructor(
     )
     @DeleteMapping("\${api.path}/factories/{id}")
     fun deleteFactory(@PathVariable id: Int): ResponseEntity<String> {
-        if (factoryRepo.existsById(id)) {
+        val factory = factoryRepo.findById(id)
+        if (factory.isPresent) {
+            deliveryRepo.findAllByFactory(factory.get()).forEach {
+                val newDelivery = it.copy(factory = null)
+                deliveryRepo.save(newDelivery)
+            }
             factoryRepo.deleteById(id)
             return ResponseEntity(HttpStatus.OK)
         }
 
         return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    @Operation(summary = "Update factory")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Successfully updating factory",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "In case if bad json body was provided",
+                content = arrayOf(Content())
+            ),
+            ApiResponse(
+                responseCode = "500", description = "Internal error", content = arrayOf(Content()),
+            )
+        ]
+    )
+    @PutMapping("\${api.path}/factories")
+    @ResponseBody
+    fun updateFactory(
+        @RequestBody factory: Factory
+    ) {
+        try {
+            factoryRepo.save(factory)
+        } catch (_: IllegalArgumentException) {
+            throw BadEntityException("entity was empty")
+        }
     }
 }

@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 @Table(name = "batches")
 data class Batch(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Int,
     @OneToOne
     val shift: WorkShift?,

@@ -1,5 +1,6 @@
 package space.arlet.course4backend.core
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -8,14 +9,16 @@ import java.time.LocalDateTime
 data class Delivery(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    val id: Int?,
+    val id: Int,
     @ManyToOne
     val transport: Transport?,
     @ManyToOne
     val deliveryPoint: DeliveryPoint?,
     val packsCount: Int?,
     @ManyToOne
-    val factory: Factory,
+    val factory: Factory?,
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     val departureDate: LocalDateTime?,
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     val arrivalDate: LocalDateTime?,
 )

@@ -1,13 +1,13 @@
 package space.arlet.course4backend.core
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "payments_info")
 data class PaymentInfo(
-    @Id val id: Int,
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    val id: Int,
     val salary: Int,
     val bankName: String,
     val accountNumber: String,
